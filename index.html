@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Shi Yipeng (石一鹏) - PhD Student in Computer Science at Shanghai Jiao Tong University. Research on white-box cryptography, PUF-based security, and symmetric cipher design.">
+<title>Shi Yipeng | 石一鹏</title>
+
+<style>
+  /* ========== CSS Variables ========== */
+  :root {
+    --bg: #fcfcfc;
+    --bg-card: #ffffff;
+    --text: #1a1a1a;
+    --text-secondary: #555555;
+    --text-muted: #888888;
+    --accent: #1a5276;
+    --accent-light: #2980b9;
+    --border: #e8e8e8;
+    --border-light: #f0f0f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.06);
+    --radius: 6px;
+    --content-width: 720px;
+    --nav-height: 56px;
+    --transition: 0.2s ease;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a1a;
+      --bg-card: #242424;
+      --text: #e8e8e8;
+      --text-secondary: #aaaaaa;
+      --text-muted: #777777;
+      --accent: #5dade2;
+      --accent-light: #85c1e9;
+      --border: #333333;
+      --border-light: #2a2a2a;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+      --shadow-md: 0 2px 8px rgba(0,0,0,0.3);
+    }
+  }
+
+  /* ========== Reset & Base ========== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text);
+    background: var(--bg);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  a:hover { color: var(--accent-light); }
+
+  h1, h2, h3, h4 { font-weight: 600; line-height: 1.3; }
+
+  /* ========== Navigation ========== */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--nav-height);
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .nav-inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .nav-brand:hover { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: color var(--transition);
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .nav-mobile-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    margin: 5px 0;
+    transition: transform var(--transition), opacity var(--transition);
+  }
+
+  /* ========== Layout ========== */
+  .container {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  section {
+    padding: 64px 0;
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid var(--border);
+    letter-spacing: -0.01em;
+  }
+
+  /* ========== Hero Section ========== */
+  .hero {
+    padding: 80px 0 48px;
+    text-align: left;
+  }
+
+  .hero-name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .hero-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .hero-contact-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .hero-contact-item svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--text-muted);
+  }
+
+  .hero-bio {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    max-width: 65ch;
+  }
+
+  .hero-bio strong {
+    color: var(--text);
+  }
+
+  /* ========== Social Icons ========== */
+  .social-links {
+    display: flex;
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    transition: all var(--transition);
+  }
+  .social-links a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(26, 82, 118, 0.04);
+  }
+  .social-links a svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ========== Timeline (Education) ========== */
+  .timeline { position: relative; }
+
+  .timeline-item {
+    display: flex;
+    gap: 24px;
+    padding-bottom: 32px;
+    position: relative;
+  }
+
+  .timeline-item:last-child { padding-bottom: 0; }
+
+  .timeline-marker {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline-item:not(:last-child) .timeline-marker::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 5px;
+    width: 2px;
+    height: calc(100% + 32px);
+    background: var(--border);
+  }
+
+  .timeline-content h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .timeline-content .meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .timeline-content .desc {
+    font-size: 0.93rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ========== Publication Cards ========== */
+  .pub-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pub-item {
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-light);
+    transition: box-shadow var(--transition), border-color var(--transition);
+  }
+  .pub-item:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--border);
+  }
+
+  .pub-item .pub-type {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    background: rgba(26, 82, 118, 0.08);
+    color: var(--accent);
+  }
+
+  .pub-item .pub-type.co-author {
+    background: rgba(74, 122, 107, 0.08);
+    color: #4a7a6b;
+  }
+
+  .pub-item .pub-type.patent {
+    background: rgba(180, 120, 40, 0.08);
+    color: #b47828;
+  }
+
+  .pub-item h4 {
+    font-size: 0.98rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    line-height: 1.5;
+  }
+
+  .pub-item .pub-meta {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .pub-section-subtitle {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 28px 0 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.8rem;
+  }
+
+  /* ========== Projects ========== */
+  .project-item {
+    padding: 20px;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-light);
+    margin-bottom: 12px;
+    transition: box-shadow var(--transition);
+  }
+  .project-item:hover { box-shadow: var(--shadow-md); }
+
+  .project-item h4 {
+    font-size: 0.98rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .project-item .project-role {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: rgba(26, 82, 118, 0.08);
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .project-item p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  /* ========== Awards ========== */
+  .award-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .award-item {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .award-item:last-child { border-bottom: none; }
+
+  .award-year {
+    flex-shrink: 0;
+    width: 56px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .award-desc {
+    font-size: 0.93rem;
+    color: var(--text-secondary);
+  }
+
+  /* ========== Footer ========== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  footer a { color: var(--text-secondary); }
+  footer a:hover { color: var(--accent); }
+
+  /* ========== Back to Top ========== */
+  .back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity var(--transition), transform var(--transition);
+    z-index: 99;
+    box-shadow: var(--shadow-sm);
+  }
+  .back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .back-to-top svg {
+    width: 18px;
+    height: 18px;
+    color: var(--text-secondary);
+  }
+  .back-to-top:hover {
+    border-color: var(--accent);
+  }
+  .back-to-top:hover svg {
+    color: var(--accent);
+  }
+
+  /* ========== Responsive ========== */
+  @media (max-width: 768px) {
+    .hero { padding: 48px 0 32px; }
+    .hero-name { font-size: 1.6rem; }
+    section { padding: 40px 0; }
+
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: var(--nav-height);
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      gap: 8px;
+      box-shadow: var(--shadow-md);
+    }
+    .nav-links.open { display: flex; }
+
+    .nav-mobile-toggle { display: block; }
+
+    .timeline-item { gap: 16px; }
+    .pub-item { padding: 14px 16px; }
+    .award-item { flex-direction: column; gap: 2px; }
+    .award-year { width: auto; }
+  }
+
+  /* ========== Print ========== */
+  @media print {
+    .nav, .back-to-top, footer { display: none; }
+    body { font-size: 13px; line-height: 1.5; }
+    section { padding: 24px 0; page-break-inside: avoid; }
+  }
+
+  /* ========== Reduced Motion ========== */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== NAVIGATION ==================== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">Shi Yipeng</a>
+    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#awards">Awards</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- ==================== HERO / ABOUT ==================== -->
+  <section id="about" class="hero">
+    <h1 class="hero-name">Shi Yipeng <span style="font-weight:400;color:var(--text-muted);">/ 石一鹏</span></h1>
+    <p class="hero-subtitle">
+      Ph.D. Student in Computer Science &bull; Shanghai Jiao Tong University<br>
+      White-Box Cryptography &bull; PUF-Based Security &bull; Symmetric Cipher Design
+    </p>
+
+    <div class="hero-contact">
+      <span class="hero-contact-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        siponline@sjtu.edu.cn
+      </span>
+      <span class="hero-contact-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Shanghai, China
+      </span>
+    </div>
+
+    <div class="social-links">
+      <!-- GitHub -->
+      <a href="https://github.com/siponline" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+      <!-- Google Scholar -->
+      <a href="#" target="_blank" rel="noopener" aria-label="Google Scholar">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
+      </a>
+      <!-- Email -->
+      <a href="mailto:siponline@sjtu.edu.cn" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+      <!-- ORCID -->
+      <a href="#" target="_blank" rel="noopener" aria-label="ORCID">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-3.994-3.722h-2.325z"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-bio" style="margin-top:24px;">
+      <p>
+        I am a first-year Ph.D. student in Computer Science at <strong>Shanghai Jiao Tong University (SJTU)</strong>,
+        advised by <strong>Prof. Dawu Gu</strong> (Changjiang Scholar, Dean of the School of Cyber Science and Engineering,
+        Vice President of the Chinese Association for Cryptologic Research).
+      </p>
+      <p style="margin-top:12px;">
+        My research focuses on <strong>white-box cryptography</strong>, <strong>physically unclonable function (PUF)-based security schemes</strong>,
+        and <strong>symmetric cipher analysis and design</strong>. I am also broadly interested in physical attacks and
+        countermeasures, cryptographic implementation, trusted computing systems, and the intersection of
+        cryptography and neural networks.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== EDUCATION ==================== -->
+  <section id="education">
+    <h2 class="section-title">Education</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Shanghai Jiao Tong University</h3>
+          <div class="meta">Ph.D. in Computer Science & Technology &bull; 2023.09 &ndash; 2028.06 (Expected)</div>
+          <div class="desc">
+            Direct-admission academic doctorate (undergraduate-to-Ph.D.). Advisor: Prof. Dawu Gu.
+            GPA 3.79 / 4.0. Recipient of the full doctoral academic scholarship.
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Northwestern Polytechnical University (NPU)</h3>
+          <div class="meta">B.Eng. in Software Engineering &bull; 2019.09 &ndash; 2023.06</div>
+          <div class="desc">
+            Outstanding Graduate of Shaanxi Province. Overall ranking 2/299.
+            National Scholarship recipient for two consecutive years (Top 1%).
+            Xiaomi Special Scholarship (Top &lt;0.1%, 10 recipients university-wide).
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== RESEARCH ==================== -->
+  <section id="research">
+    <h2 class="section-title">Research &amp; Publications</h2>
+
+    <div class="pub-section-subtitle">First-Author Publications</div>
+    <div class="pub-list">
+
+      <div class="pub-item">
+        <span class="pub-type">Journal (CCF T2)</span>
+        <h4>Compact Constraint Analysis of SPONGENT S-box Based on Mixed Integer Linear Programming</h4>
+        <div class="pub-meta">Journal of Computer Applications (北大核心), 2022</div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-type">In Submission</span>
+        <h4>Key Guidance Invocation: Extendable Mode of Operation for White-Box Cryptography</h4>
+        <div class="pub-meta">First-author, under review</div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-type">In Submission</span>
+        <h4>RubikStone: Highly Configurable White-box Scheme with Strong Practical Space Hardness under Adaptively Chosen-Space Attacks</h4>
+        <div class="pub-meta">First-author, under review</div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-type">In Submission</span>
+        <h4>PUFStone: New Authenticated Encryption Paradigm with Hedged Security</h4>
+        <div class="pub-meta">First-author, under review</div>
+      </div>
+    </div>
+
+    <div class="pub-section-subtitle">Co-Authored Publications</div>
+    <div class="pub-list">
+
+      <div class="pub-item">
+        <span class="pub-type co-author">CCF C</span>
+        <h4>Building Provably Secure Pseudo-Strong PUFs via Weak PUFs and Pseudorandom Functions for Cryptographic Protocols</h4>
+        <div class="pub-meta">TrustCom 2025</div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-type co-author">CCF T2</span>
+        <h4>MILP-Based Integral Distinguisher Search for GIFT and Optimization</h4>
+        <div class="pub-meta">Computer Science (计算机科学, 北大核心), 2023</div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-type co-author">CCF B</span>
+        <h4>End-to-End Non-Profiled Side-Channel Analysis on Long Raw Traces</h4>
+        <div class="pub-meta">ESORICS 2025</div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-type co-author">CCF C</span>
+        <h4>Secure and Scalable TLB Partitioning Against Timing Side-Channel Attacks</h4>
+        <div class="pub-meta">ICICS 2025</div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-type co-author">In Submission</span>
+        <h4>Overfitted Optical Neural Network for Arbitrary Algebraic Operations</h4>
+        <div class="pub-meta">Co-author, under review</div>
+      </div>
+    </div>
+
+    <div class="pub-section-subtitle">Patents &amp; Software Copyrights</div>
+    <div class="pub-list">
+
+      <div class="pub-item">
+        <span class="pub-type patent">Patent</span>
+        <h4>SM2 White-Box Collaborative Signing Method with Complete Private Key Separation</h4>
+        <div class="pub-meta">CN116961922A (First inventor)</div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-type patent">Patent</span>
+        <h4>Dynamic White-Box Cryptography Implementation Based on Guided Random Numbers</h4>
+        <div class="pub-meta">CN119011138A (First inventor)</div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-type patent">Software</span>
+        <h4>4 Registered Software Copyrights</h4>
+        <div class="pub-meta">2021SR0924330 &bull; 2021SR0959227 &bull; 2022SR0223511 &bull; 2022SR021838 (First registrant)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROJECTS ==================== -->
+  <section id="projects">
+    <h2 class="section-title">Projects &amp; Experience</h2>
+
+    <div class="project-item">
+      <span class="project-role">Independent Lead</span>
+      <h4>High-Throughput Lightweight Symmetric Cipher &amp; Hash Implementation (Blake3, ASCON)</h4>
+      <p>
+        Funded by the Cyberspace Administration of China and Huawei under the 3rd Cybersecurity Academy Student Innovation Funding Initiative.
+        Developing and benchmarking optimized implementations of modern lightweight cryptographic primitives.
+      </p>
+    </div>
+
+    <div class="project-item">
+      <span class="project-role">Core Member</span>
+      <h4>Trusted Key Technologies for Digital Currency Risk Prevention</h4>
+      <p>
+        Part of the National Key R&amp;D Program &ldquo;Next-Generation AI&rdquo; (Science and Technology Innovation 2030, No. 2022ZD0120304).
+        Research on trusted computing and cryptographic key management for digital currency ecosystems.
+      </p>
+    </div>
+
+    <div class="project-item">
+      <span class="project-role">Core Contributor</span>
+      <h4>China's First PUF Standard (T/SISA 0002-2024)</h4>
+      <p>
+        Contributed to the drafting of <em>Technical Specification for Physically Unclonable Function Security</em>,
+        published as a Shanghai Municipal Industry Association Standard. Subsequently participating in the national-level
+        PUF standard system development led by Academician F. Chai (Fudan University).
+      </p>
+    </div>
+
+    <div class="project-item">
+      <span class="project-role">Participant</span>
+      <h4>PUF &amp; TEE-Based Novel Endogenous Data Security Architecture</h4>
+      <p>
+        Shanghai Municipal Science and Technology Commission 2022 Science and Technology Innovation Action Plan
+        (No. 22511101300). Research on combining PUFs with Trusted Execution Environments for enhanced data security.
+      </p>
+    </div>
+
+    <div class="project-item" style="margin-top:16px; border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0;">
+      <h4 style="margin-top:4px;">Shanghai Technical Invention Award (First Class, 2024)</h4>
+      <p>
+        The above projects collectively supported the award: <em>Novel Information Leakage Analysis and Protection Technologies for Cryptographic Modules</em>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== AWARDS ==================== -->
+  <section id="awards">
+    <h2 class="section-title">Honors &amp; Awards</h2>
+    <div class="award-list">
+
+      <div class="award-item">
+        <span class="award-year">2024</span>
+        <span class="award-desc">Silver Award, China International College Students' Innovation Competition (Shanghai Division) — 55,000+ participating teams</span>
+      </div>
+      <div class="award-item">
+        <span class="award-year">2024</span>
+        <span class="award-desc">Merit Student (三好学生), Shanghai Jiao Tong University</span>
+      </div>
+      <div class="award-item">
+        <span class="award-year">2023</span>
+        <span class="award-desc">Full Doctoral Academic Scholarship, SJTU (2023 &ndash; present)</span>
+      </div>
+      <div class="award-item">
+        <span class="award-year">2023</span>
+        <span class="award-desc">Outstanding Graduate of Shaanxi Province</span>
+      </div>
+      <div class="award-item">
+        <span class="award-year">2023</span>
+        <span class="award-desc">Outstanding Undergraduate Thesis (Top 5%), NPU</span>
+      </div>
+      <div class="award-item">
+        <span class="award-year">2022</span>
+        <span class="award-desc">Xiaomi Special Scholarship (Top 0.1%, 10 recipients university-wide), NPU</span>
+      </div>
+      <div class="award-item">
+        <span class="award-year">2022</span>
+        <span class="award-desc">Excellent Completion, National Undergraduate Innovation &amp; Entrepreneurship Program</span>
+      </div>
+      <div class="award-item">
+        <span class="award-year">2022</span>
+        <span class="award-desc">Ministry of Education-Huawei "Intelligent Base" Future Star</span>
+      </div>
+      <div class="award-item">
+        <span class="award-year">2021</span>
+        <span class="award-desc">National Second Prize, China Computer Design Competition</span>
+      </div>
+      <div class="award-item">
+        <span class="award-year">2020&ndash;2021</span>
+        <span class="award-desc">National Scholarship (Top 1%) &times; 2 consecutive years, NPU</span>
+      </div>
+      <div class="award-item">
+        <span class="award-year">2020&ndash;2022</span>
+        <span class="award-desc">First-Class Academic Scholarship &times; 3 consecutive years (Top 5%), NPU</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="container">
+  <p>&copy; 2024 &ndash; 2026 Shi Yipeng &bull; Shanghai Jiao Tong University</p>
+  <p style="margin-top:4px;">Built with simplicity in mind &bull; Hosted on <a href="https://github.com/siponline/siponline.github.io">GitHub Pages</a></p>
+</footer>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+  // Mobile nav toggle
+  const toggle = document.getElementById('mobileToggle');
+  const navLinks = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    const expanded = navLinks.classList.contains('open');
+    toggle.setAttribute('aria-expanded', expanded);
+  });
+
+  // Close nav on link click (mobile)
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Back to top
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('visible', window.scrollY > 400);
+  });
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Active nav link highlighting
+  const sections = document.querySelectorAll('section[id]');
+  const navItems = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 80;
+      if (window.scrollY >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+    navItems.forEach(link => {
+      link.style.color = '';
+      link.style.fontWeight = '';
+      if (link.getAttribute('href') === '#' + current) {
+        link.style.color = 'var(--accent)';
+        link.style.fontWeight = '600';
+      }
+    });
+  });
+</script>
+</body>
+</html>
