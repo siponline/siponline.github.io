@@ -6,7 +6,9 @@
 
 :::info
 论文原文：[2017-Asiacrypt-Homomorphic Encryption for Arithmetic of Approximate Numbers (HEAAN)](https://link.springer.com/content/pdf/10.1007/978-3-319-70694-8_15.pdf)
+
 解读参考：https://zhuanlan.zhihu.com/p/366965077
+
 Overview：![](https://notes.sjtu.edu.cn/uploads/upload_2ec6689635735bda6e3a1ae7c6027dbb.png)
 :::
 
