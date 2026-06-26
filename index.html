@@ -103,11 +103,22 @@ MathJax = {
   }
 
   .topbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-weight: 700;
     font-size: 1.1rem;
     color: var(--text);
     letter-spacing: -0.01em;
     text-decoration: none;
+  }
+  .brand-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
   }
   .topbar-brand:hover { color: var(--accent); }
 
@@ -526,7 +537,7 @@ MathJax = {
 <!-- ==================== TOP BAR ==================== -->
 <nav class="topbar">
   <div class="topbar-inner">
-    <a href="#" class="topbar-brand">Yipeng's Page</a>
+    <a href="#" class="topbar-brand"><img src="assets/avatar.jpg" alt="Avatar" class="brand-avatar">Yipeng's Page</a>
     <ul class="mode-tabs" id="modeTabs">
       <li><button class="mode-tab active" data-view="profile">Profile</button></li>
       <li><button class="mode-tab" data-view="blog">Blog</button></li>
