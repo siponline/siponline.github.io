@@ -6,13 +6,5 @@
     "summary": "CKKS (Cheon-Kim-Kim-Song) 同态加密方案的核心思想、编码解码机制与算法全流程详解。包括 KeyGen、Encode、Decode、Encrypt、Decrypt、Add、Multiply、Rescale 八个关键算法的逐步拆解。",
     "tags": ["FHE", "CKKS", "cryptography", "homomorphic-encryption"],
     "file": "ckks-learning.md"
-  },
-  {
-    "id": "hello-world",
-    "title": "Hello World — Welcome to My Blog",
-    "date": "2026-06-26",
-    "summary": "A brief introduction to this blog and what I plan to write about: white-box cryptography, PUF security, symmetric cipher design, and research life at SJTU.",
-    "tags": ["meta", "cryptography"],
-    "file": "hello-world.md"
   }
 ]
