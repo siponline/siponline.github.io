@@ -405,9 +405,11 @@ MathJax = {
     -webkit-overflow-scrolling: touch;
   }
   .post-full-body table {
-    width: 100%;
+    width: max-content;
+    min-width: 100%;
     border-collapse: collapse;
     font-size: 0.88rem;
+    white-space: nowrap;
   }
   .post-full-body thead {
     border-bottom: 2px solid var(--accent);
