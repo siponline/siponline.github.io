@@ -383,6 +383,39 @@
   .post-full-body hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
   .post-full-body img { max-width: 100%; border-radius: var(--radius); }
 
+  /* Admonition blocks (:::info, :::success, etc.) */
+  .post-full-body .admonition {
+    margin: 20px 0;
+    padding: 14px 20px;
+    border-radius: var(--radius);
+    border-left: 4px solid;
+    font-size: 0.93rem;
+    line-height: 1.7;
+  }
+  .post-full-body .admonition p { margin-bottom: 10px; }
+  .post-full-body .admonition p:last-child { margin-bottom: 0; }
+  .post-full-body .admonition h4,
+  .post-full-body .admonition h5 { margin-top: 16px; margin-bottom: 8px; }
+  .post-full-body .admonition-info {
+    background: rgba(26, 82, 118, 0.06);
+    border-color: var(--accent);
+  }
+  .post-full-body .admonition-success {
+    background: rgba(74, 122, 107, 0.06);
+    border-color: #4a7a6b;
+  }
+  .post-full-body .admonition-danger {
+    background: rgba(192, 57, 43, 0.05);
+    border-color: #c0392b;
+  }
+  .post-full-body .admonition-warning {
+    background: rgba(180, 120, 40, 0.06);
+    border-color: #b47828;
+  }
+  .post-full-body .admonition code {
+    background: rgba(128,128,128,0.12);
+  }
+
   /* ========== Footer ========== */
   footer {
     border-top: 1px solid var(--border);

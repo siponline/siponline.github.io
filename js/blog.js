@@ -181,7 +181,24 @@
     renderPosts(CONFIG.postList, CACHE, ACTIVE_TAGS);
   }
 
-  /* ---------- post overlay ---------- */
+  /* ---------- markdown pre-processing ---------- */
+
+  /**
+   * Convert CodiMD/HackMD ::: admonition blocks to styled HTML divs.
+   * Supported types: info, success, danger, warning
+   * Blocks can contain inner markdown that will be parsed by marked.js.
+   */
+  function preprocessAdmonitions(md) {
+    return md.replace(/^:::(\w+)\s*\n([\s\S]*?)^:::\s*$/gm, function (match, type, content) {
+      var validTypes = ['info', 'success', 'danger', 'warning'];
+      if (validTypes.indexOf(type) === -1) return match;
+      return '<div class="admonition admonition-' + type + '">\n\n' + content.trim() + '\n\n</div>';
+    });
+  }
+
+  function preprocessMarkdown(md) {
+    return preprocessAdmonitions(md);
+  }
 
   function openPost(post) {
     var overlay = $(CONFIG.overlay.el);
@@ -196,9 +213,10 @@
 
     loadMarkdown(post.file).then(function (mdText) {
       var body = $(CONFIG.overlay.body);
+      var processed = preprocessMarkdown(mdText);
       body.innerHTML = (typeof marked !== 'undefined' && marked.parse)
-        ? marked.parse(mdText)
-        : '<pre>' + esc(mdText) + '</pre>';
+        ? marked.parse(processed)
+        : '<pre>' + esc(processed) + '</pre>';
     }).catch(function () {
       $(CONFIG.overlay.body).innerHTML = '<p>Unable to load post content.</p>';
     });
