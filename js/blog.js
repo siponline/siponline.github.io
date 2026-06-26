@@ -192,7 +192,8 @@
     return md.replace(/^:::(\w+)\s*\n([\s\S]*?)^:::\s*$/gm, function (match, type, content) {
       var validTypes = ['info', 'success', 'danger', 'warning'];
       if (validTypes.indexOf(type) === -1) return match;
-      return '<div class="admonition admonition-' + type + '">\n\n' + content.trim() + '\n\n</div>';
+      /* blank lines before/after to force marked.js to parse inner markdown */
+      return '\n\n<div class="admonition admonition-' + type + '">\n\n' + content.trim() + '\n\n</div>\n\n';
     });
   }
 
@@ -217,6 +218,12 @@
       body.innerHTML = (typeof marked !== 'undefined' && marked.parse)
         ? marked.parse(processed)
         : '<pre>' + esc(processed) + '</pre>';
+      /* trigger MathJax to render LaTeX formulas */
+      if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+        MathJax.typesetPromise([body]).catch(function (err) {
+          console.warn('MathJax typeset failed:', err);
+        });
+      }
     }).catch(function () {
       $(CONFIG.overlay.body).innerHTML = '<p>Unable to load post content.</p>';
     });
