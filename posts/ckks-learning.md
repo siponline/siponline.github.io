@@ -1,4 +1,3 @@
-# CKKS学习
 
 > - Cheon-Kim-Kim-Song -> CKKS
 > - CKKS方案构造基于BGV方案
