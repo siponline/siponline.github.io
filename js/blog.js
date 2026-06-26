@@ -201,6 +201,21 @@
     return preprocessAdmonitions(md);
   }
 
+  /**
+   * Wrap all tables inside container in a scrollable div so wide tables
+   * don't get squeezed by the page width.
+   */
+  function wrapTables(container) {
+    if (!container) return;
+    $$('table', container).forEach(function (table) {
+      if (table.parentNode.classList.contains('table-wrapper')) return;
+      var wrapper = document.createElement('div');
+      wrapper.className = 'table-wrapper';
+      table.parentNode.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+    });
+  }
+
   function openPost(post) {
     var overlay = $(CONFIG.overlay.el);
     if (!overlay) return;
@@ -218,6 +233,8 @@
       body.innerHTML = (typeof marked !== 'undefined' && marked.parse)
         ? marked.parse(processed)
         : '<pre>' + esc(processed) + '</pre>';
+      /* wrap tables in scrollable containers */
+      wrapTables(body);
       /* trigger MathJax to render LaTeX formulas */
       if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
         MathJax.typesetPromise([body]).catch(function (err) {

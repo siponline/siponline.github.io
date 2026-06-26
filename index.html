@@ -397,6 +397,37 @@ MathJax = {
   .post-full-body hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
   .post-full-body img { max-width: 100%; border-radius: var(--radius); }
 
+  /* ========== Tables (scrollable on overflow) ========== */
+  .post-full-body .table-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
+    margin: 20px 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  .post-full-body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .post-full-body thead {
+    border-bottom: 2px solid var(--accent);
+  }
+  .post-full-body th {
+    padding: 10px 14px;
+    background: rgba(26, 82, 118, 0.06);
+    font-weight: 600;
+    color: var(--text);
+    text-align: left;
+    white-space: nowrap;
+  }
+  .post-full-body td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-full-body tbody tr:hover td {
+    background: rgba(26, 82, 118, 0.03);
+  }
+
   /* Admonition blocks (:::info, :::success, etc.) */
   .post-full-body .admonition {
     margin: 20px 0;
