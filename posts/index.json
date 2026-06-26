@@ -1,9 +1,9 @@
 [
   {
     "id": "ckks-learning",
-    "title": "CKKS",
+    "title": "CKKS 学习笔记",
     "date": "2026-06-26",
-    "summary": "CKKS (Cheon-Kim-Kim-Song) 同态加密方案的核心思想、编码解码机制与算法全流程详解。包括 KeyGen、Encode、Decode、Encrypt、Decrypt、Add、Multiply、Rescale 八个关键算法的逐步拆解。",
+    "summary": "CKKS (Cheon-Kim-Kim-Song) 同态加密方案的核心思想、编码解码机制与算法全流程详解。",
     "tags": ["FHE", "CKKS", "cryptography", "homomorphic-encryption"],
     "file": "ckks-learning.md"
   }
