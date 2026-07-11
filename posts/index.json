@@ -1,5 +1,13 @@
 [
   {
+    "id": "agent-learning",
+    "title": "AI Agent 系统完整知识笔记",
+    "date": "2026-07-11",
+    "summary": "从 Harness、Loop、LLM Ops 到 Eval，系统梳理 AI Agent 的工程化架构：记忆系统的三层结构、RAG 与 SQL 检索、工具调用循环与护栏，以及持续迭代的质量保障闭环。",
+    "tags": ["AI Agent", "LLM", "Agent Engineering", "LLM Ops"],
+    "file": "agent-learning.md"
+  },
+  {
     "id": "ckks-learning",
     "title": "CKKS 学习笔记",
     "date": "2026-06-26",
