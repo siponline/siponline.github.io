@@ -1,4 +1,12 @@
-# AI Agent 系统完整知识笔记
+# Agent 学习笔记
+:::success
+Agent 这个词的含义，其实在过去一年内发生了比较大的变化。
+
+此期大家所说的 Agent，更接近于一种基于 LLM 的 Workflow。它通常围绕某一个特定任务展开，例如知识问答、报表生成、邮件发送等。整个执行流程、工具调用顺序以及任务拆解方式，大多由开发者提前设计好，模型主要负责理解用户意图和执行其中的智能环节。
+
+而如今，Agent 的概念已经演进为一种以目标驱动（Goal-driven）的自主智能体。开发者不再规定每一步应该怎么做，而是给 Agent 一个目标，由它自主进行任务规划、推理决策、调用工具、观察执行结果，并不断循环，直到认为任务已经完成。这也是为什么现代 Agent 的核心都会围绕一个 Reason → Act → Observe 的循环来构建。
+:::
+
 ![](https://notes.sjtu.edu.cn/uploads/upload_207e92b7c5e89083906eceee90a1d999.png)
 
 ## 一、四个核心概念速览
@@ -252,9 +260,7 @@ LLM Ops就是Agent系统的**持续质量保证体系**，包含四个环节：
 
 ## 十、完整系统全景图解读
 
-结合视频中的架构图，完整系统由左右两大部分组成：
-
-### 左侧：Harness + Loop（Agent执行层）
+### Harness + Loop（Agent执行层）
 
 ```
 用户提示 + 对话历史 + 系统提示
@@ -272,7 +278,7 @@ LLM Ops就是Agent系统的**持续质量保证体系**，包含四个环节：
     保存消息 → 情景记忆数据库
 ```
 
-### 右侧：LLM Ops（质量保障层）
+### LLM Ops（质量保障层）
 
 ```
 每次Reply
@@ -314,12 +320,15 @@ LLM Ops就是Agent系统的**持续质量保证体系**，包含四个环节：
 
 | 层级 | 工具选择 |
 |------|---------|
+| LLM | Claude(Anthropic)、ChatGPT(OpenAI)、Gemini(Google)、Llama(Meta)、Deepseek、Qwen(Alibaba)、Doubao (ByteDance)、GLM(Zhipu AI) |
 | Harness框架 | LangGraph、LangChain、Pydantic |
+| RAG | LlamaIndex、LangChain Retriever、Haystack | 
 | 向量数据库 | Pinecone、Weaviate、Chroma |
-| 情景记忆 | PostgreSQL、SQLite + 向量扩展 |
+| 情景记忆 | PostgreSQL、SQLite |
 | 追踪工具 | Langfuse、LangSmith |
 | 云存储 | AWS S3、Google Cloud Storage、Azure Blob |
 
 
-
-> 本文参考于视频[一口气学会AI Agent Harness/Loop工程/LLM Ops/Eval评估系统](https://www.bilibili.com/video/BV1NV776uEQX/)
+:::danger
+本文参考自视频[一口气学会AI Agent Harness/Loop工程/LLM Ops/Eval评估系统](https://www.bilibili.com/video/BV1NV776uEQX/)
+:::
