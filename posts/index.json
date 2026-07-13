@@ -16,12 +16,12 @@
     "file": "ckks-learning.md"
   },
   {
-    "id": "agent-learning",
+    "id": "unread-universe",
     "title": "Sip Say (Vol. 1) | The Unread Universe",
     "date": "2026-07-13",
     "summary": "大语言模型会走到自行探索宇宙的那一天吗？",
     "tags": ["sip say", "LLM"],
-    "file": "Sip Say (Vol. 1) _ The Unread Universe.md"
+    "file": "unread-universe.md"
   },
   {
     "id": "coding-the-world",
@@ -29,6 +29,6 @@
     "date": "2026-07-14",
     "summary": "宇宙之中，至少一部分个体，已经从纯粹的阅读者，渐渐变为它的创作者。",
     "tags": ["sip say"],
-    "file": "Sip Say (Vol. 2) _ The World as Code.md"
+    "file": "coding-the-world.md"
   },
 ]
